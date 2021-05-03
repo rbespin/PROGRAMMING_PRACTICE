@@ -28,20 +28,24 @@ numeric_limits<double>::infinity()
 
 Know how to convert integers, characters, strings...
 - ASCII:
-    48 0
-    49 1
-    50 2
-    51 3
-    52 4
-    53 5
-    54 6
-    55 7
-    56 8
-    57 9
+```
+48 0
+49 1
+50 2
+51 3
+52 4
+53 5
+54 6
+55 7
+56 8
+57 9
+```
 We can use this to convert a character digit to an int, i.e.
     '5'-'0' = 53-48 = 5
 
 - Key methods in random and cmath
+
+```
 cmath
     abs(-199)
     fabs(-2.44)
@@ -56,6 +60,7 @@ random
     uniform_int_distribution<>dis(1,10) -> integer [1,10]
     uniform_real_distruction<double>dis(1.6,5.4) -> float [1.6,5.4]
     generate_canonical<double,10> -> float [0,1]
+```
 
 
 ## Exercises
