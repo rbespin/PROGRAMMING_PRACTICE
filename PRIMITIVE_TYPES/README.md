@@ -41,7 +41,9 @@ Know how to convert integers, characters, strings...
 57 9
 ```
 We can use this to convert a character digit to an int, i.e.
-    '5'-'0' = 53-48 = 5
+```
+'5'-'0' = 53-48 = 5
+```
 
 - Key methods in random and cmath
 
@@ -73,7 +75,67 @@ and 0 otherwise.
 ``` 
 x&~(x-1) 
 ```
-clears the lowest set bit in x.
-    ---------------------------------
-    | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 |
-    ---------------------------------
+ISOLATES the lowest set bit in x.
+```
+x        = (00101100)_2 
+x-1      = (00101011)_2 
+~(x-1)   = (11010100)_2 
+x&~(x-1) = (00000100)_2 
+```
+This bit may be removed from x by computing x XOR y.
+
+- The expression
+```
+x&(x-1)
+```
+replaces the lowest set bit in x that is 1 with 0.
+```
+x       = (00101100)_2
+x-1     = (00101011)_2
+x&(x-1) = (00101000)_2
+```
+
+Four ways that we can compute the parity of a word:
+1. Brute force, by iteratively testing values for each bit seen in a number
+2. Grabbing the lowest 1-set bit, and keeping track of the amount we've seen.
+3. Using a cache to store the parity of smaller-bit words, and grouping 
+the number in non-overlapping ways.
+4. Using associative and commutative properties of XOR to group bits and their
+parities.
+
+### 1. Brute Force
+```cpp
+short Parity(unsigned long x)
+{
+  short result = 0;
+  while(x)
+  {
+    result ^= (x&1);
+    x >>= 1;
+  }
+  return result
+}
+```
+Here we see we are using the OR operation to track even/odd number of 
+1-bits set seen.
+
+### 2. Tracking Lowest Set 1-Bit
+```cpp
+short Parity(unsigned long x)
+{
+  short result = 0;
+  while(x)
+  {
+    result ^= 1;
+    x &= (x-1);
+  }
+  return result;
+} 
+```
+```
+                       result = 0;
+x        = (00101100); result = 1;
+x        = (00101000); result = 0;
+x        = (00100000); result = 1;
+x        = (00000000); result = 0;
+```
