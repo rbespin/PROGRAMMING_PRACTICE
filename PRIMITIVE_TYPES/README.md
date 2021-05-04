@@ -126,8 +126,8 @@ short Parity(unsigned long x)
   short result = 0;
   while(x)
   {
-    result ^= 1;
-    x &= (x-1);
+    result ^= 1; // flips result
+    x &= (x-1)   // sets lowest set-bit to 0
   }
   return result;
 } 
@@ -139,3 +139,49 @@ x        = (00101000); result = 0;
 x        = (00100000); result = 1;
 x        = (00000000); result = 0;
 ```
+
+### 3. Using a cache and grouping into non-overlapping ways
+```cpp
+short Parity(unsigned long x)
+{
+  const int kWordSize = 16;
+  const int kBitMask = 0xFFFF;
+  return precomputed_parity[x >> (3*kWordSize)] ^ 
+         precomputed_parity[x >> (2*kWordSize) & kBitMask] ^
+         precomputed_parity[x >> (kWordSize)] & kBitMask^
+         precomputed_parity[x >> & kBitMask];
+}
+```
+For this method, all we would need is a cache that stores the parity of all
+16-bit words. We then correctly group the 64-bit number into 4 16-bit segments,
+accomplished by shifting and extracting with a mask.
+
+A lookup table for 2-bit words would be as follows:
+```
+<0,1,1,0> - The parities of <(00),(01),(10),(11)>
+```
+We can dynamically calculate the precomputed parity cache as we see 
+16 bit numbers, or brute force generate (using method 1 or 2) the cache.
+
+### 4. Associativity and Commutativity of XOR
+```cpp
+short Parity(unsigned long x)
+{
+  x ^= x >> 32;
+  x ^= x >> 16;
+  x ^= x >> 8;
+  x ^= x >> 4;
+  x ^= x >> 2;
+  x ^= x >> 1;
+  return x & 0x1;
+}
+```
+This process is illustrated with an 8-bit word
+```
+(11010111)
+->
+(1101) XOR (0111) = (1010)
+(10) XOR (10) = (00)
+(0) XOR (0) = 0;
+0 & 0x1 = 0; 
+<- Even parity
