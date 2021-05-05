@@ -1,5 +1,8 @@
 # Primitive Types
 
+# TODO
+1. Time complexities for each problem
+
 We can combine shifting and masking to count the number of bits in a number.
 Most implementations of C++ use 32 or 64 bits for int, Java always uses 32.
 ```cpp
@@ -67,7 +70,7 @@ random
 
 ## Exercises
 
-### Computing the Parity of a Word
+### 1. Computing the Parity of a Word
 Parity of a binary word is 1 if the number of 1's in the word is odd,
 and 0 otherwise.
 
@@ -103,7 +106,7 @@ the number in non-overlapping ways.
 4. Using associative and commutative properties of XOR to group bits and their
 parities.
 
-### 1. Brute Force
+#### 1. Brute Force
 ```cpp
 short Parity(unsigned long x)
 {
@@ -119,7 +122,7 @@ short Parity(unsigned long x)
 Here we see we are using the OR operation to track even/odd number of 
 1-bits set seen.
 
-### 2. Tracking Lowest Set 1-Bit
+#### 2. Tracking Lowest Set 1-Bit
 ```cpp
 short Parity(unsigned long x)
 {
@@ -140,7 +143,7 @@ x        = (00100000); result = 1;
 x        = (00000000); result = 0;
 ```
 
-### 3. Using a cache and grouping into non-overlapping ways
+#### 3. Using a cache and grouping into non-overlapping ways
 ```cpp
 short Parity(unsigned long x)
 {
@@ -163,7 +166,11 @@ A lookup table for 2-bit words would be as follows:
 We can dynamically calculate the precomputed parity cache as we see 
 16 bit numbers, or brute force generate (using method 1 or 2) the cache.
 
-### 4. Associativity and Commutativity of XOR
+#### 4. Associativity and Commutativity of XOR
+XOR operations are associative & commutative
+```
+parity of <b63,b62,...,b0> = parity of XOR of <b63,b62,...,b32> , <b31,b30,...,b0>
+```
 ```cpp
 short Parity(unsigned long x)
 {
@@ -185,3 +192,33 @@ This process is illustrated with an 8-bit word
 (0) XOR (0) = 0;
 0 & 0x1 = 0; 
 <- Even parity
+```
+
+### 2. Swap Bits
+```
+x & (x-1)
+```
+clears the lowest set bit in x.
+```
+x & ~(x-1)
+```
+extracts the lowest set bit in x.
+
+Problem statement: Implement code that takes as input a 64-bit integer
+and swaps the bits at indices i and j.
+
+```cpp
+long SwapBits(long x, int i, int j)
+{
+  if( ((x >> i) & 1) != ((x >> j) & 1) )
+  {
+    unsigned long bit_mask = (1L << i) | (1L << j);
+    x ^= bit_mask;
+  }
+  return x;
+}
+```
+We only swap bits if they differ. 
+Time complexity: O(1)
+
+### 3. Reverse Bits
