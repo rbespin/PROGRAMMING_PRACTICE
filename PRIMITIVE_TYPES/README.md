@@ -70,7 +70,7 @@ random
 
 ## Exercises
 
-### [1. Computing the Parity of a Word](#computing-the-parity-of-a-word)
+### [1. Computing the Parity of a Word](#1-computing-the-parity-of-a-word)
 Parity of a binary word is 1 if the number of 1's in the word is odd,
 and 0 otherwise.
 
