@@ -119,7 +119,7 @@ short Parity(unsigned long x)
   return result
 }
 ```
-Here we see we are using the OR operation to track even/odd number of 
+Here we see we are using the XOR operation to track even/odd number of 
 1-bits set seen.
 
 #### 2. Tracking Lowest Set 1-Bit
@@ -219,6 +219,66 @@ long SwapBits(long x, int i, int j)
 }
 ```
 We only swap bits if they differ. 
+Because we only attempt to flip if the bits differ, we can use the XOR operation
+to flip the bits.
 Time complexity: O(1)
 
 ### 3. Reverse Bits
+Problem statement: Write a program that takes a 64-bit word and returns the 
+64-bit word consisting of the bits of the input word in reverse order.
+https://leetcode.com/problems/reverse-bits/
+#### 1. Brute Force
+We can iterate in reverse order through the 32 least significant bits, 
+and swap each with the corresponding most significant bit.
+The approach can be as follows:
+```cpp
+long ReverseBits(long x)
+{
+  for(int i=0, j=63; i<32, j>32; i++,j--)
+  {
+    if( (x >> j)&1 != (x >> i)&1)
+    {
+      // flip bits only if necessary
+      unsigned long bit_mask = (1L << j) | (1L << i);
+      x ^= bit_mask;
+    }
+  }
+  return x;
+}
+```
+
+#### 2. Using a cache
+We can use a cache in a similar way we did with the parity problem.
+If it s a 64-bit word, we can group the word into the following:
+```
+y3,y2,y1,y0
+```
+where y3 holds the most significant bits. We can store the reverse
+order of 16 bits in an array, and form the reverse of x with
+the reverse of y0 in the most significant bit positions, followed
+by the reverse of y1, y2, then y3. 
+```
+rev = <(00),(10),(01),(11)>
+input = (10010011)
+y3 = 10
+y2 = 01
+y1 = 00
+y0 = 11
+reverse = <rev(y0),rev(y1),rev(y2),rev(y3)>
+reverse = <rev(11),rev(00),rev(01),rev<10>
+reverse = <rev[3],rev[0],rev[1],rev[2]>
+reverse = <(11),(00),(10),(01)>
+reverse = (11001001)
+input =   (10010011)
+```
+```cpp
+long ReverseBits(long x)
+{
+  const int kWordSize = 16;
+  const int kBitMask  = 0xFFFF;
+  return precomputed_reverse[x & kBitMask] << (3 * kWordSize) |
+         precomputed_reverse[(x >> kWordSize) & kBitMask] << (2 * kWordSize) |
+         precomputed_reverse[(x >> 2*kWordSize) & kBitMask] << (kWordSize) |
+         precomputed_reverse[(x >> 3*kWordSize) & kBitMask];
+```
+The time complexity for this is O(n/L), for n-bit integers and L-bit cache keys
