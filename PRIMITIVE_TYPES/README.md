@@ -70,7 +70,7 @@ random
 
 ## Exercises
 
-### 1. Computing the Parity of a Word
+### [1. Computing the Parity of a Word](#computing-the-parity-of-a-word)
 Parity of a binary word is 1 if the number of 1's in the word is odd,
 and 0 otherwise.
 
@@ -234,7 +234,7 @@ The approach can be as follows:
 ```cpp
 long ReverseBits(long x)
 {
-  for(int i=0, j=63; i<32, j>32; i++,j--)
+  for(int i=0, j=63; i<31, j>31; i++,j--)
   {
     if( (x >> j)&1 != (x >> i)&1)
     {
@@ -282,3 +282,5 @@ long ReverseBits(long x)
          precomputed_reverse[(x >> 3*kWordSize) & kBitMask];
 ```
 The time complexity for this is O(n/L), for n-bit integers and L-bit cache keys
+
+### 4. Find a Closest Integer With the Same weight

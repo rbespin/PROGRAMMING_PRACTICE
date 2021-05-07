@@ -5,4 +5,5 @@ It will be based off the book Elements of Programming InterviewIt will be
 based off the book Elements of Programming Interviews.
 
 ### [Primitive Types](./PRIMITIVE_TYPES)
-- Computing the parity of a word
+- [Computing the parity of a 
+   word](./PRIMITIVE_TYPES/README.md#computing-the-parity-of-a-word)
