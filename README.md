@@ -11,4 +11,4 @@ based off the book Elements of Programming Interviews.
 - [3. Reverse Bits](./PRIMITIVE_TYPES/README.md#3-reverse-bits)
 - [4. Find a Closest Integer With the Same 
    Weights](./PRIMITIVE_TYPES/README.md#4-find-a-closest-integer-with-the-same-
-   weights))
+   weights)
