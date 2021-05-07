@@ -194,7 +194,7 @@ This process is illustrated with an 8-bit word
 <- Even parity
 ```
 
-### 2. Swap Bits
+### [2. Swap Bits](#2-swap-bits)
 ```
 x & (x-1)
 ```
@@ -223,7 +223,7 @@ Because we only attempt to flip if the bits differ, we can use the XOR operation
 to flip the bits.
 Time complexity: O(1)
 
-### 3. Reverse Bits
+### [3. Reverse Bits](#3-reverse-bits)
 Problem statement: Write a program that takes a 64-bit word and returns the 
 64-bit word consisting of the bits of the input word in reverse order.
 https://leetcode.com/problems/reverse-bits/
@@ -283,4 +283,4 @@ long ReverseBits(long x)
 ```
 The time complexity for this is O(n/L), for n-bit integers and L-bit cache keys
 
-### 4. Find a Closest Integer With the Same weight
+### [4. Find a Closest Integer With the Same Weights](#4-find-a-closest-integer-with-the-same-weights)
