@@ -284,3 +284,83 @@ long ReverseBits(long x)
 The time complexity for this is O(n/L), for n-bit integers and L-bit cache keys
 
 ### [4. Find a Closest Integer With the Same Weights](#4-find-a-closest-integer-with-the-same-weights)
+
+Define the * weight * of a nonnegative integer * x * to be the number of bits that
+are set to 1 in its binary representation. 
+``` 
+92 = (1011100)_2 has weight 4
+```
+Problem statement: Write a program which takes as input a nonnegative integer x
+and returns a number y which is not equal to x, but has the same weight as x and
+their different, |y-x|, is as small as possible.
+
+Solution: The correct approach is to swap the two most rightmost consecutive
+bits that differ.
+
+```
+const int kNumUnsignBits = 64;
+unsigned long ClosestIntSameBitCount(unsigned long x)
+{
+  for(int i = 0; i < kNumUnsignBits-1; i++)
+  {
+    if(((x>>i)&1) != ((x>>(i+1))&1))
+    {
+      x ^= (1UL << i) | (1UL<<(i+1));
+      return x;
+    }
+  }
+}
+```
+Time complexity is O(n), where n is the integer width.
+
+### [5. Compute x X y Without Arithmetical Operators](#5-compute-x-x-y-without-arithmentical-operations)
+Problem statement: Write a program that multiplies two nonnegative integers.
+The only operators allowed are:
+  - Assignment
+  - Bitwise operators >>,<<,|,&,~,^
+  - Equality checks and Boolean combinations
+* Cannot use increment or decrement, or test if x < y *
+
+To multiply x and y, we can initialize the result to be 0 and and iterate
+through the bits of x, adding 2^k * y to the result if the kth bit of x is 1.
+
+2^k * y can be computed by left shifting y by k. 
+
+Since we cannot use add directly, we must implement it directly by computing the
+sum bit by bit, and "rippling" the carry along.
+
+```cpp
+unsigned Multiply(unsigned x, unsigned y)
+{
+  unsigned sum = 0;
+  while(x)
+  {
+    if( x & 1 )
+    {
+      sum = Add(sum,y);
+    }
+    x >>= 1, y <<= 1;
+  }
+  return sum;
+}
+
+unsigned Add(unsigned a, unsigned b)
+{
+  unsigned sum = 0, carryin = 0, k = 1, temp_a = a, temp_b = b;
+  while( temp_a || temp_b )
+  {
+    unsigned ak = a & k, bk = b & k;
+    unsigned carryout = (ak & bk) | (ak & carryin) | (bk & carryin);
+    sum |= (ak ^ bk ^ carryin);
+    carryin = carryout << 1, k <<= 1, temp_a >>= 1, temp_b >>= 1;
+  }
+  return sum | carryin;
+}
+```
+The time complexity of addition is O(n), where n is the width of the operands.
+Since we do n additions to perform a single multiplication, the total time
+complexity is O(n^2).
+
+### [6. Compute x/y](#6-compute-x-y)
+Problem statement: Given two positive integers, compute their quotient, using
+only the addition, subtraction, and shifting operators.
