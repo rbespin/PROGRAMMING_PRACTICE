@@ -10,3 +10,4 @@ It will be based off the book Elements of Programming Interview.
 - [3. Reverse Bits](./PRIMITIVE_TYPES/README.md#3-reverse-bits)
 - [4. Find a Closest Integer With the Same 
    Weights](./PRIMITIVE_TYPES/README.md#4-find-a-closest-integer-with-the-same-weights)
+- [5. Compute x X y Without Arithmetical Operators](#5-compute-x-x-y-without-arithmetical-operators)
